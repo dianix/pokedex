@@ -1,4 +1,4 @@
-$.getJSON("http://pokeapi.co/api/v2/pokemon/", function(response){
+$.getJSON("https://pokeapi.co/api/v2/pokemon/", function(response){
     console.log(response);
     var pokemons = response.results;
     crearPokemons(pokemons);
