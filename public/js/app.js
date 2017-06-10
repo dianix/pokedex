@@ -1,5 +1,5 @@
 $.getJSON("https://pokeapi.co/api/v2/pokemon/", function(response){
-    console.log(response);
+    //console.log(response);
     var pokemons = response.results;
     crearPokemons(pokemons,pokeimagenes);
 });
@@ -8,10 +8,10 @@ function crearPokemons(pokemons) {
 	var contenedorPokemones = $("#pokemons");
     var fila = $("<div class='row center'/>")
     $(pokemons).each(function (i,pokemon) {
-        console.log(pokeimagenes[i].imagen)
-        var cajaPokemon = $("<div class='card col s6 m3 hoverable '/>");
-        var pokeFoto = $("<img data-info_'__url__'/>").attr("src",pokeimagenes[i].imagen);
-		var nombre = $("<h5/>").text(pokemon.name);
+        var cajaPokemon = $("<div class='card col s6 m3 hoverable'/>").attr("data-info",pokemon.url);
+        var pokeFoto = $("<img />").attr("src",pokeimagenes[i].imagen);
+        console.log(pokeFoto)
+		var nombre = $("<a/>").text(pokemon.name).attr('href',"#modal1");
         cajaPokemon.append(pokeFoto).append(nombre);
 		fila.append(cajaPokemon);
         contenedorPokemones.append(fila)
@@ -81,5 +81,8 @@ var pokeimagenes = [
     }
 ];
 
-
+$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
 
