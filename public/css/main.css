@@ -1,3 +1,13 @@
+.brand-logo img {
+    height: 5vh;
+    vertical-align: text-bottom;
+    margin-right: 1vh;
+}
+
 .card.m3 {
-    padding: 3vh;
+    padding: 2vh 0;
+}
+
+.card.m3 img{
+    width: 20vh;
 }
