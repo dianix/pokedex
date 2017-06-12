@@ -8,11 +8,13 @@
     padding: 2vh 0;
 }
 
-.card.m3 img {
-    width: 20vh;
-}
 
 .llamarDatos {
-    color: rebeccapurple;
+    
+}
+
+.datos {
+    text-align: center;
+    color: #525252;
     font-weight: bolder;
 }

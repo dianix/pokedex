@@ -10,39 +10,39 @@ var cargarPagina = function() {
 
 function crearPokemons(pokemons) {
     var contenedorPokemones = $("#pokemons");
-    var fila = $("<div class='row center'/>")
+    var fila = $("<div class='row center-align'/>")
     $(pokemons).each(function (i, pokemon) {
         var cajaPokemon = $("<div class='card col s6 m3 hoverable'/>");
-        var pokeFoto = $("<img />").attr("src", pokeimagenes[i].imagen);
-        var nombre = $("<a class='datos center-text'/>").text(pokemon.name).attr("data-info", pokemon.url).attr('href', "#modal1");
+        var pokeFoto = $("<img class='responsive-img'/>").attr("src", pokeimagenes[i].imagen);
+        var nombre = $("<a class='datos'/>").text(pokemon.name).attr("data-info", pokemon.url).attr('href', "#modal1");
         cajaPokemon.append(pokeFoto).append(nombre);
         fila.append(cajaPokemon);
         contenedorPokemones.append(fila)
     });
 };
 
-var plantillaModal = '<div class="row">'+
-                         '<div class="col s6">'+
-                             '<img src="__src__" alt="__pokemon__">'+
-                         '</div>'+
-                         '<div class="col s6">'+
-                            '<div class="row">'+
-                             '<h4>__nombrePokemon__</h4>'+
-                             '</div>'+
-                             '<div class="row">'+
-                                 '<h6 class="col s6">Color: __color__</h6>'+
-                                 '<h6 class="col s6">Shape: __forma__</h6>' +                               
-                                 '<h6 class="col s6">Habitat: __habitat__</h6>'+
-                                 '<h6 class="col s6">Genero: __genera__</h6>'+
+var plantillaModal ='<div class="row">'+
+                        '<div class="col s6">'+
+                            '<img src="__src__" alt="__pokemon__">'+
+                        '</div>'+
+                        '<div class="col s6">'+
+                           '<div class="row">'+
+                            '<h4>__nombrePokemon__</h4>'+
                             '</div>'+
-                         '</div>'+
-                     '</div>';
+                            '<div class="row">'+
+                                '<h6 class="col s6"><b>Color:<b/>&ensp; __color__</h6>'+
+                                '<h6 class="col s6"><b>Forma:<b/>&ensp; __forma__</h6>' +                               
+                                '<h6 class="col s6"><b>Habitat:<b/>&ensp; __habitat__</h6>'+
+                                '<h6 class="col s6"><b>Genera:<b/>&ensp; __genera__</h6>'+
+                           '</div>'+
+                        '</div>'+
+                    '</div>';
 
 var obtenerDatos = function(){
     var info = $(this).data("info");
     var foto = $(this).prev().attr("src");
     var nombre = $(this).text();
-    console.log(nombre)
+    //console.log(nombre)
     var $modal = $("#modal1")
     $.getJSON(info,function(response){
         //console.log(response)
@@ -77,6 +77,10 @@ var mostrarDatos = function(datos){
                 .replace("__habitat__",datos.habitat)
                 .replace("__genera__",datos.genera);
     contenedorModal.html(plantillaFinal);
+};
+
+var limpiarModal = function(){
+    
 };
 
 var pokeimagenes = [
