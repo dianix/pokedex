@@ -8,13 +8,17 @@
     padding: 2vh 0;
 }
 
-
-.llamarDatos {
-    
-}
-
 .datos {
     text-align: center;
     color: #525252;
     font-weight: bolder;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.siguiente {
+    
 }

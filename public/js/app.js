@@ -1,14 +1,18 @@
-var cargarPagina = function() {
+var cargarPagina = function () {
     $('.modal').modal();
-    $("body").on("click",".datos", obtenerDatos);
+    $("body").on("click", ".datos", obtenerDatos);
+    $("#siguiente").click(siguientePokeLista);
     $.getJSON("https://pokeapi.co/api/v2/pokemon/", function (response) {
         //console.log(response);
         var pokemons = response.results;
+        var siguientesPk = response.next;
+        $("#siguiente").attr("data-url", siguientesPk);
         crearPokemons(pokemons);
     });
 };
 
-function crearPokemons(pokemons) {
+var crearPokemons = function (pokemons) {
+    console.log(pokemons)
     var contenedorPokemones = $("#pokemons");
     var fila = $("<div class='row center-align'/>")
     $(pokemons).each(function (i, pokemon) {
@@ -21,67 +25,86 @@ function crearPokemons(pokemons) {
     });
 };
 
-var plantillaModal ='<div class="row">'+
-                        '<div class="col s6">'+
-                            '<img src="__src__" alt="__pokemon__">'+
-                        '</div>'+
-                        '<div class="col s6">'+
-                           '<div class="row">'+
-                            '<h4>__nombrePokemon__</h4>'+
-                            '</div>'+
-                            '<div class="row">'+
-                                '<h6 class="col s6"><b>Color:<b/>&ensp; __color__</h6>'+
-                                '<h6 class="col s6"><b>Forma:<b/>&ensp; __forma__</h6>' +                               
-                                '<h6 class="col s6"><b>Habitat:<b/>&ensp; __habitat__</h6>'+
-                                '<h6 class="col s6"><b>Genera:<b/>&ensp; __genera__</h6>'+
-                           '</div>'+
-                        '</div>'+
-                    '</div>';
+var plantillaModal = '<div class="row">' +
+    '<div class="col s6">' +
+    '<img src="__src__" alt="__pokemon__">' +
+    '</div>' +
+    '<div class="col s6">' +
+    '<div class="row">' +
+    '<h4>__nombrePokemon__</h4>' +
+    '</div>' +
+    '<div class="row">' +
+    '<h6 class="col s6"><b>Color:<b/>&ensp; __color__</h6>' +
+    '<h6 class="col s6"><b>Forma:<b/>&ensp; __forma__</h6>' +
+    '<h6 class="col s6"><b>Habitat:<b/>&ensp; __habitat__</h6>' +
+    '<h6 class="col s6"><b>Genera:<b/>&ensp; __genera__</h6>' +
+    '</div>' +
+    '</div>' +
+    '</div>';
 
-var obtenerDatos = function(){
+var obtenerDatos = function () {
     var info = $(this).data("info");
     var foto = $(this).prev().attr("src");
     var nombre = $(this).text();
     //console.log(nombre)
     var $modal = $("#modal1")
-    $.getJSON(info,function(response){
+    $.getJSON(info, function (response) {
         //console.log(response)
         var especie = response.species.url;
-        $.getJSON(especie,function(response){
+        $.getJSON(especie, function (response) {
             var habitat = response.habitat.name;
             var color = response.color.name;
             var shape = response.shape.name;
             var genera = response.genera[0].genus;
-            
+
             mostrarDatos({
-                foto:foto,
-                nombre:nombre,
-                habitat:habitat,
-                color:color,
-                shape:shape,
-                genera:genera
+                foto: foto,
+                nombre: nombre,
+                habitat: habitat,
+                color: color,
+                shape: shape,
+                genera: genera
             });
-        })     
-    });    
+        })
+    });
 };
 
-var mostrarDatos = function(datos){
-    console.log(datos)
+var mostrarDatos = function (datos) {
+    //console.log(datos)
     var contenedorModal = $(".modal-content");
     var plantillaFinal = "";
-    plantillaFinal += plantillaModal.replace("__src__",datos.foto)
-                .replace("__pokemon__",datos.nombre)
-                .replace("__nombrePokemon__",datos.nombre)
-                .replace("__color__",datos.color)
-                .replace("__forma__",datos.shape)
-                .replace("__habitat__",datos.habitat)
-                .replace("__genera__",datos.genera);
+    plantillaFinal += plantillaModal.replace("__src__", datos.foto)
+        .replace("__pokemon__", datos.nombre)
+        .replace("__nombrePokemon__", datos.nombre)
+        .replace("__color__", datos.color)
+        .replace("__forma__", datos.shape)
+        .replace("__habitat__", datos.habitat)
+        .replace("__genera__", datos.genera);
     contenedorModal.html(plantillaFinal);
 };
 
-var limpiarModal = function(){
-    
+var limpiarModal = function () {
+
 };
+
+var siguientePokeLista = function () {
+    var siguienteUrl = $("#siguiente").attr("data-url");
+    var botonSiguiente = $("#siguiente");
+    var botonAnterior = $("#anterior");
+    //console.log(siguienteUrl)
+    $.getJSON(siguienteUrl, function (response) {
+        var pokemons = response.results;
+        var siguientesPk = response.next;
+        //console.log(siguientesPk)        
+        var anterioresPk = response.previous;
+        //console.log(anterioresPk)        
+        botonSiguiente.attr("data-url", siguientesPk);
+        botonAnterior.attr("data-url", anterioresPk);
+        console.log(botonSiguiente.data("url"))
+        console.log(botonAnterior.data("url"))
+        crearPokemons(pokemons);
+    });
+}
 
 var pokeimagenes = [
     {
